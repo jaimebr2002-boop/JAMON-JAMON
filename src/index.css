@@ -1,0 +1,17 @@
+@import "tailwindcss";
+
+@theme {
+  --color-jamon-red: #E10600;
+  --color-jamon-black: #1a1a1a;
+  --font-sans: 'Montserrat', system-ui, sans-serif;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  font-family: 'Montserrat', sans-serif;
+  background-color: #ffffff;
+  color: var(--color-jamon-black);
+}
