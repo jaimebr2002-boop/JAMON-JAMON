@@ -3,8 +3,8 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import React, { useState, useEffect } from 'react';
-import { motion, AnimatePresence } from 'motion/react';
+import React, { useState, useEffect, useRef } from 'react';
+import { motion, AnimatePresence, useScroll, useTransform } from 'motion/react';
 import { 
   Phone, 
   MapPin, 
@@ -130,6 +130,11 @@ export default function App() {
     { name: 'Visítanos', href: '#visitanos' },
   ];
 
+  const { scrollY } = useScroll();
+  const heroY = useTransform(scrollY, [0, 500], [0, 200]);
+  const heroOpacity = useTransform(scrollY, [0, 500], [1, 0]);
+  const heroScale = useTransform(scrollY, [0, 500], [1, 1.1]);
+
   return (
     <div className="min-h-screen bg-white font-sans text-jamon-black selection:bg-jamon-red selection:text-white">
       {/* Navbar */}
@@ -206,7 +211,10 @@ export default function App() {
 
       {/* Hero */}
       <section id="hero" className="relative h-screen flex items-center justify-center overflow-hidden">
-        <div className="absolute inset-0 z-0">
+        <motion.div 
+          style={{ y: heroY, scale: heroScale }}
+          className="absolute inset-0 z-0"
+        >
           <img 
             src="https://res.cloudinary.com/dfbsqy5ul/image/upload/v1773690780/513433344_18372786022131308_7284278273775718447_n_lqn1zr.jpg" 
             alt="Terraza y tapas Jamōn Jamōn" 
@@ -214,9 +222,12 @@ export default function App() {
             referrerPolicy="no-referrer"
           />
           <div className="absolute inset-0 bg-black/60"></div>
-        </div>
+        </motion.div>
         
-        <div className="relative z-10 text-center px-4 max-w-4xl mx-auto mt-16">
+        <motion.div 
+          style={{ opacity: heroOpacity }}
+          className="relative z-10 text-center px-4 max-w-4xl mx-auto mt-16"
+        >
           <motion.h1 
             initial={{ opacity: 0, y: 30 }}
             animate={{ opacity: 1, y: 0 }}
@@ -248,7 +259,7 @@ export default function App() {
             </a>
             <p className="text-white mt-4 font-medium text-lg tracking-widest">985 20 89 51</p>
           </motion.div>
-        </div>
+        </motion.div>
 
         <div className="absolute bottom-8 left-0 w-full flex justify-center gap-8 z-10">
           <a href="https://www.facebook.com/oviedo.jamonjamon/" target="_blank" rel="noopener noreferrer" className="text-white hover:text-jamon-red transition-colors p-2 bg-black/30 rounded-full backdrop-blur-sm">
@@ -263,7 +274,7 @@ export default function App() {
       </section>
 
       {/* Sobre Nosotros */}
-      <section id="nosotros" className="py-24 bg-white">
+      <section id="nosotros" className="py-24 bg-white overflow-hidden">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
             <motion.div 
@@ -322,17 +333,28 @@ export default function App() {
       </section>
 
       {/* La Carta */}
-      <section id="carta" className="py-24 bg-gray-50">
+      <section id="carta" className="py-24 bg-gray-50 overflow-hidden">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="text-center mb-16">
+          <motion.div 
+            initial={{ opacity: 0, y: 30 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            className="text-center mb-16"
+          >
             <h2 className="text-4xl md:text-5xl font-extrabold mb-6 text-jamon-black uppercase tracking-tight">La Carta</h2>
             <div className="w-24 h-1.5 bg-jamon-red mx-auto mb-8"></div>
             <p className="text-xl text-gray-600 max-w-2xl mx-auto">
               Disfruta de nuestra selección de tapas y platos tradicionales, elaborados con los mejores ingredientes.
             </p>
-          </div>
+          </motion.div>
 
-          <div className="bg-white rounded-[2rem] p-8 md:p-12 shadow-xl border border-gray-100 mb-16">
+          <motion.div 
+            initial={{ opacity: 0, y: 40 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.8 }}
+            className="bg-white rounded-[2rem] p-8 md:p-12 shadow-xl border border-gray-100 mb-16"
+          >
             <div className="grid grid-cols-1 md:grid-cols-2 gap-x-16 gap-y-6">
               {[
                 { name: "Jamón ibérico", price: "17,50" },
@@ -362,7 +384,7 @@ export default function App() {
                 </div>
               ))}
             </div>
-          </div>
+          </motion.div>
 
           <div className="flex flex-col sm:flex-row justify-center gap-6">
             <a 
@@ -377,10 +399,15 @@ export default function App() {
 
           {/* Galería de Platos */}
           <div className="mt-24">
-            <div className="text-center mb-12">
+            <motion.div 
+              initial={{ opacity: 0, y: 30 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              className="text-center mb-12"
+            >
               <h3 className="text-3xl font-bold text-jamon-black mb-4">Nuestros Platos</h3>
               <div className="w-16 h-1 bg-jamon-red mx-auto"></div>
-            </div>
+            </motion.div>
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
               {[
                 { url: "https://res.cloudinary.com/dfbsqy5ul/image/upload/v1773690780/504351519_18372484720131308_846849740735949854_n_nrj3tp.jpg", pos: "object-bottom" },
@@ -390,6 +417,10 @@ export default function App() {
               ].map((item, i) => (
                 <motion.div 
                   key={i}
+                  initial={{ opacity: 0, scale: 0.9 }}
+                  whileInView={{ opacity: 1, scale: 1 }}
+                  viewport={{ once: true }}
+                  transition={{ delay: i * 0.1 }}
                   whileHover={{ scale: 1.03 }}
                   className="overflow-hidden rounded-2xl shadow-lg aspect-square bg-gray-100"
                 >
@@ -438,14 +469,25 @@ export default function App() {
       </section>
 
       {/* Visítanos */}
-      <section id="visitanos" className="py-24 bg-gray-50">
+      <section id="visitanos" className="py-24 bg-gray-50 overflow-hidden">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="text-center mb-16">
+          <motion.div 
+            initial={{ opacity: 0, y: 30 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            className="text-center mb-16"
+          >
             <h2 className="text-4xl md:text-5xl font-extrabold mb-6 text-jamon-black uppercase tracking-tight">Visítanos</h2>
             <div className="w-24 h-1.5 bg-jamon-red mx-auto"></div>
-          </div>
+          </motion.div>
 
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-0 bg-white rounded-3xl shadow-xl overflow-hidden border border-gray-100">
+          <motion.div 
+            initial={{ opacity: 0, y: 50 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.8 }}
+            className="grid grid-cols-1 lg:grid-cols-2 gap-0 bg-white rounded-3xl shadow-xl overflow-hidden border border-gray-100"
+          >
             {/* Info */}
             <div className="p-10 lg:p-16 flex flex-col justify-center">
               <div className="space-y-10">
@@ -510,7 +552,7 @@ export default function App() {
                 title="Mapa de ubicación Jamōn Jamōn"
               ></iframe>
             </div>
-          </div>
+          </motion.div>
         </div>
       </section>
 
