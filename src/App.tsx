@@ -381,22 +381,22 @@ export default function App() {
               <h3 className="text-3xl font-bold text-jamon-black mb-4">Nuestros Platos</h3>
               <div className="w-16 h-1 bg-jamon-red mx-auto"></div>
             </div>
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8 items-start">
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
               {[
-                "https://res.cloudinary.com/dfbsqy5ul/image/upload/v1773690780/504351519_18372484720131308_846849740735949854_n_nrj3tp.jpg",
-                "https://res.cloudinary.com/dfbsqy5ul/image/upload/v1773690780/Estreno_De_muerte_en_calambre_.._jg8h72.jpg",
-                "https://res.cloudinary.com/dfbsqy5ul/image/upload/v1773690780/529608606_18377645911131308_1413881936380251623_n_gnmp1c.jpg",
-                "https://res.cloudinary.com/dfbsqy5ul/image/upload/v1773690780/Oviedo_capital_nuestro_pincho_del_cofrade_ven_y_dinos_tu_opini%C3%B3n.Por_ahora_est%C3%A1_siendo_un_%C3%A9xi_tbrpbm.jpg"
-              ].map((url, i) => (
+                { url: "https://res.cloudinary.com/dfbsqy5ul/image/upload/v1773690780/504351519_18372484720131308_846849740735949854_n_nrj3tp.jpg", pos: "object-bottom" },
+                { url: "https://res.cloudinary.com/dfbsqy5ul/image/upload/v1773690780/Estreno_De_muerte_en_calambre_.._jg8h72.jpg", pos: "object-bottom" },
+                { url: "https://res.cloudinary.com/dfbsqy5ul/image/upload/v1773690780/529608606_18377645911131308_1413881936380251623_n_gnmp1c.jpg", pos: "object-center" },
+                { url: "https://res.cloudinary.com/dfbsqy5ul/image/upload/v1773690780/Oviedo_capital_nuestro_pincho_del_cofrade_ven_y_dinos_tu_opini%C3%B3n.Por_ahora_est%C3%A1_siendo_un_%C3%A9xi_tbrpbm.jpg", pos: "object-center" }
+              ].map((item, i) => (
                 <motion.div 
                   key={i}
-                  whileHover={{ scale: 1.02 }}
-                  className="overflow-hidden rounded-2xl shadow-md bg-white"
+                  whileHover={{ scale: 1.03 }}
+                  className="overflow-hidden rounded-2xl shadow-lg aspect-square bg-gray-100"
                 >
                   <img 
-                    src={url} 
+                    src={item.url} 
                     alt={`Galería Jamón Jamón ${i + 1}`} 
-                    className="w-full h-auto block"
+                    className={`w-full h-full object-cover ${item.pos} transition-transform duration-500 hover:scale-110`}
                     referrerPolicy="no-referrer"
                   />
                 </motion.div>
